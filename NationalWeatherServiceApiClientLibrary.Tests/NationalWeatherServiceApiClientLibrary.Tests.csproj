@@ -30,16 +30,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="pointsresponse.json">
+    <None Update="JsonResponseFiles\pointsresponse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="statestationsresponse.json">
+    <None Update="JsonResponseFiles\rawforecastresponse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="stationobservationslatestresponse.json">
+    <None Update="JsonResponseFiles\statestationsresponse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="stationsresponse.json">
+    <None Update="JsonResponseFiles\stationobservationslatestresponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="JsonResponseFiles\stationsresponse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

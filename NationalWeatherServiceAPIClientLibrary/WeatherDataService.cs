@@ -10,6 +10,7 @@ using System.IO;
 using GeoCoordinatePortable;
 using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels;
 using System.Net.Http.Json;
+using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
 
 namespace NationalWeatherServiceAPIClientLibrary
 {

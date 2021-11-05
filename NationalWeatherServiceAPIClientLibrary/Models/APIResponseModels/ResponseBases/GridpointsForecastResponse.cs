@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties;
+using System;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
+namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases
 {
     public class GridpointsForecastResponse
     {
         [JsonPropertyName("properties")]
-        public Properties Properties { get; set; }
+        public GridPointsForecastProperties Properties { get; set; }
     }
 
     public class Period
@@ -51,32 +51,5 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
 
         [JsonPropertyName("detailedForecast")]
         public string DetailedForecast { get; set; }
-    }
-
-    public class Properties
-    {
-        [JsonPropertyName("updated")]
-        public DateTime Updated { get; set; }
-
-        [JsonPropertyName("units")]
-        public string Units { get; set; }
-
-        [JsonPropertyName("forecastGenerator")]
-        public string ForecastGenerator { get; set; }
-
-        [JsonPropertyName("generatedAt")]
-        public DateTime GeneratedAt { get; set; }
-
-        [JsonPropertyName("updateTime")]
-        public DateTime UpdateTime { get; set; }
-
-        [JsonPropertyName("validTimes")]
-        public string ValidTimes { get; set; }
-
-        [JsonPropertyName("elevation")]
-        public Elevation Elevation { get; set; }
-
-        [JsonPropertyName("periods")]
-        public List<Period> Periods { get; set; }
     }
 }

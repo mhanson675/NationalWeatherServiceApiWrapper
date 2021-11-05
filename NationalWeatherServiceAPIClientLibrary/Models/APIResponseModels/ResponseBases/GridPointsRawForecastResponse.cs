@@ -1,9 +1,10 @@
-﻿using System;
+﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
+namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases
 {
     public class GridPointsRawForecastResponse
     {
@@ -146,7 +147,7 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
         public string Intensity { get; set; }
 
         [JsonPropertyName("visibility")]
-        public Visibility Visibility { get; set; }
+        public VisibilityQV Visibility { get; set; }
 
         [JsonPropertyName("attributes")]
         public List<string> Attributes { get; set; }
