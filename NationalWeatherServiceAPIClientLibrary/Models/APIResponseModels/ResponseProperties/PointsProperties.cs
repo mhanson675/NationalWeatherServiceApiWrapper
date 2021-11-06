@@ -1,7 +1,7 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
+﻿using NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
+namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
     public class PointsProperties
     {

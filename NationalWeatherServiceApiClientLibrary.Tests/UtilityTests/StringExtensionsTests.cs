@@ -1,4 +1,4 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Extensions;
+﻿using NationalWeatherServiceAPI.Extensions;
 using System.Collections.Generic;
 using Xunit;
 

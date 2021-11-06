@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
+namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
     public class TextualForecastPeriod
     {

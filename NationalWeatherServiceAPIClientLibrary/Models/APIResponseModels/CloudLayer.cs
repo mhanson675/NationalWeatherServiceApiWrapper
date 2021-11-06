@@ -1,7 +1,7 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues;
+﻿using NationalWeatherServiceAPI.Models.APIResponseModels.QuantitativeValues;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
+namespace NationalWeatherServiceAPI.Models.APIResponseModels
 {
     public class CloudLayer
     {

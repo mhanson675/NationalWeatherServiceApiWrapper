@@ -1,10 +1,10 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues;
-using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
+﻿using NationalWeatherServiceAPI.Models.APIResponseModels.QuantitativeValues;
+using NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
+namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
     public class GridPointsTextualForecastProperties
     {

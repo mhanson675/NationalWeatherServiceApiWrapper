@@ -1,9 +1,9 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues;
+﻿using NationalWeatherServiceAPI.Models.APIResponseModels.QuantitativeValues;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
+namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
     public class StationsObservationProperties
     {

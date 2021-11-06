@@ -1,11 +1,11 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels;
+﻿using NationalWeatherServiceAPI.Models.APIResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Converters
+namespace NationalWeatherServiceAPI.Converters
 {
     //TODO: USE OR DELETE
     public class GeometryConverterWithTypeDisciminator : JsonConverter<Geometry>

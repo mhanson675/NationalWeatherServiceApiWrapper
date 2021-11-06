@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues
+namespace NationalWeatherServiceAPI.Models.APIResponseModels.QuantitativeValues
 {
     public class GridPointQuantitativeValueList<T>
     {

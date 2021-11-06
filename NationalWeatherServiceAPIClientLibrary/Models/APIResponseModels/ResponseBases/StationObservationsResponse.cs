@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases
+namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases
 {
     public class StationObservationsResponse
     {

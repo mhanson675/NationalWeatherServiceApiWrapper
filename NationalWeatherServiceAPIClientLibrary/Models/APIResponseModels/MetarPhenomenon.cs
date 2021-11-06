@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
+namespace NationalWeatherServiceAPI.Models.APIResponseModels
 {
     public class MetarPhenomenon
     {

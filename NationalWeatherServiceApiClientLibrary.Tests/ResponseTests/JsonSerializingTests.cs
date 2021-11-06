@@ -1,6 +1,6 @@
-using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels;
-using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
-using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties;
+using NationalWeatherServiceAPI.Models.APIResponseModels;
+using NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases;
+using NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties;
 using System;
 using System.IO;
 using System.Linq;

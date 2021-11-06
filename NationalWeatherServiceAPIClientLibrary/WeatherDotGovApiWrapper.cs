@@ -5,10 +5,10 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using NationalWeatherServiceAPIClientLibrary.Extensions;
-using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
+using NationalWeatherServiceAPI.Extensions;
+using NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases;
 
-namespace NationalWeatherServiceAPIClientLibrary
+namespace NationalWeatherServiceAPI
 {
     /// <summary>
     /// <para>
@@ -24,22 +24,22 @@ namespace NationalWeatherServiceAPIClientLibrary
     ///  Supports logging if a <see cref="ILogger{TCategoryName}"/> is provided in the constructor.
     /// </para>
     /// </summary>
-    public class WeatherDataService
+    public class WeatherDotGovApiWrapper
     {
         private readonly HttpClient httpClient;
-        private readonly ILogger<WeatherDataService> logger;
+        private readonly ILogger<WeatherDotGovApiWrapper> logger;
 
-        public WeatherDataService()
+        public WeatherDotGovApiWrapper()
         {
             httpClient = new NWSHttpClient();
         }
 
-        public WeatherDataService(NWSHttpClient client, ILogger<WeatherDataService> logger)
+        public WeatherDotGovApiWrapper(NWSHttpClient client, ILogger<WeatherDotGovApiWrapper> logger)
         {
             //TODO verify 'user-agent' header and base address
             httpClient = client;
 
-            this.logger = logger ?? NullLogger<WeatherDataService>.Instance;
+            this.logger = logger ?? NullLogger<WeatherDotGovApiWrapper>.Instance;
         }
 
         /// <summary>

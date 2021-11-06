@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues
+namespace NationalWeatherServiceAPI.Models.APIResponseModels.QuantitativeValues
 {
     public class QuantitativeValue<T>
     {
