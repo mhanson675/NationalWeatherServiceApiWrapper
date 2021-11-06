@@ -12,9 +12,9 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
         public string State { get; set; }
 
         [JsonPropertyName("distance")]
-        public DistanceQV Distance { get; set; }
+        public QuantitativeValue<double?> Distance { get; set; }
 
         [JsonPropertyName("bearing")]
-        public BearingQV Bearing { get; set; }
+        public QuantitativeValue<int?> Bearing { get; set; }
     }
 }

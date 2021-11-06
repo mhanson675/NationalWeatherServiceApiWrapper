@@ -1,81 +1,184 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Linq;
-using System.Threading.Tasks;
-using NationalWeatherServiceAPIClientLibrary.Models;
 using System.Net.Http;
-using NationalWeatherServiceAPIClientLibrary.Extensions;
-using System.IO;
-using GeoCoordinatePortable;
-using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using NationalWeatherServiceAPIClientLibrary.Extensions;
 using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
 
 namespace NationalWeatherServiceAPIClientLibrary
 {
     /// <summary>
-    /// Gets weather data from the National Weather Service (api.weather.gov)
+    /// <para>
+    /// Gets weather data from the National Weather Service (api.weather.gov).
+    /// </para>
+    /// <para>
+    /// Supports a user provided .NET <see cref="HttpClient"/> provided through the constructor. Must have a valid 'User-Agent' header and a base address of 'https://api.weather.gov'.
+    /// If one isn't supplied, it's recommended that the service be instantiated as a Singleton since a new HttpClient will be created with each instance of the service.
+    /// This is currently advised against by Microsoft and general use of the HttpClient class.
+    /// See <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests"/>
+    /// </para>
+    /// <para>
+    ///  Supports logging if a <see cref="ILogger{TCategoryName}"/> is provided in the constructor.
+    /// </para>
     /// </summary>
     public class WeatherDataService
     {
-        private const string userAgent = "NWS Weather Library for DotNet";
-
         private readonly HttpClient httpClient;
+        private readonly ILogger<WeatherDataService> logger;
 
         public WeatherDataService()
         {
             httpClient = new NWSHttpClient();
         }
 
-        public WeatherDataService(NWSHttpClient client)
+        public WeatherDataService(NWSHttpClient client, ILogger<WeatherDataService> logger)
         {
             //TODO verify 'user-agent' header and base address
             httpClient = client;
+
+            this.logger = logger ?? NullLogger<WeatherDataService>.Instance;
         }
 
+        /// <summary>
+        /// Gets the raw numerical forecast data for a 2.5km grid area designated by the wfo and grid coordinates.
+        /// </summary>
+        /// <param name="wfo">The WeatherForecast Office ID</param>
+        /// <param name="gridX">The forecast grid x coordinate.</param>
+        /// <param name="gridY">The forecast grid y coordinate.</param>
+        /// <returns>A <see cref="GridPointsRawForecastResponse"/> containing the forecast data for the grid.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">wfo - Must be a valid WeatherForecast Office Grid ID.</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         public async Task<GridPointsRawForecastResponse> GetRawNumericalForecastForGridArea(string wfo, int gridX, int gridY)
         {
             if (!wfo.IsValidWFO())
             {
+                logger.LogInformation($"The user entered and Invalid WFO: {wfo}");
                 throw new ArgumentOutOfRangeException(nameof(wfo), "Must be a valid WeatherForecast Office Grid ID.");
             }
 
             string endPoint = $"gridpoints/{wfo}/{gridX},{gridY}";
+
             try
             {
                 return await httpClient.GetFromJsonAsync<GridPointsRawForecastResponse>(endPoint);
             }
-            catch (Exception)
+            catch (HttpRequestException ex)
             {
-
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
                 throw;
             }
         }
 
         /// <summary>
-        /// Gets the current weather conditions for a given observation station.
+        /// Gets the textual forecast for a 2.5km grid area designated by the wfo and grid coordinates.
         /// </summary>
-        /// <param name="stationId">The Station Identifier for the station to check.</param>
-        /// <returns>A StationObservationsLatestResponse containing current weather data conditions.</returns>
-        public async Task<StationObservationsLatestResponse> GetLatestConditionsForStation(string stationId)
+        /// <param name="wfo">The WeatherForecast Office ID</param>
+        /// <param name="gridX">The forecast grid x coordinate.</param>
+        /// <param name="gridY">The forecast grid y coordinate.</param>
+        /// <returns>A <see cref="GridpointsTextualForecastResponse"/> containing the textual forecast data for the grid for the next 7 days.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">wfo - Must be a valid WeatherForecast Office Grid ID.</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
+        public async Task<GridpointsTextualForecastResponse> GetTextualForecastForGridArea(string wfo, int gridX, int gridY)
         {
+            if (!wfo.IsValidWFO())
+            {
+                logger.LogInformation($"The user entered and Invalid WFO: {wfo}");
+                throw new ArgumentOutOfRangeException(nameof(wfo), "Must be a valid WeatherForecast Office Grid ID.");
+            }
+
+            string endPoint = $"gridpoints/{wfo}/{gridX},{gridY}/forecast";
+
             try
             {
-                if (string.IsNullOrWhiteSpace(stationId))
-                {
-                    throw new ArgumentNullException(nameof(stationId), "The Station Id cannot be null or empty space.");
-                }
-
-                string endPoint = $"stations/{stationId}/observations/latest";
-
-                var latestConditionsResponse = await httpClient.GetFromJsonAsync<StationObservationsLatestResponse>(endPoint);
-
-                return latestConditionsResponse;
-
+                return await httpClient.GetFromJsonAsync<GridpointsTextualForecastResponse>(endPoint);
             }
-            catch (Exception)
+            catch (HttpRequestException ex)
             {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets an hourly textual forecast for a 2.5km grid area designated by the wfo and grid coordinates.
+        /// </summary>
+        /// <param name="wfo">The WeatherForecast Office ID</param>
+        /// <param name="gridX">The forecast grid x coordinate.</param>
+        /// <param name="gridY">The forecast grid y coordinate.</param>
+        /// <returns>A <see cref="GridpointsTextualForecastResponse"/> containing the textual forecast data for the grid for the next 156 hours.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">wfo - Must be a valid WeatherForecast Office Grid ID.</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
+        public async Task<GridpointsTextualForecastResponse> GetHourlyTextualForecastForGridArea(string wfo, int gridX, int gridY)
+        {
+            if (!wfo.IsValidWFO())
+            {
+                logger.LogInformation($"The user entered and Invalid WFO: {wfo}");
+                throw new ArgumentOutOfRangeException(nameof(wfo), "Must be a valid WeatherForecast Office Grid ID.");
+            }
+
+            string endPoint = $"gridpoints/{wfo}/{gridX},{gridY}/forecast/hourly";
+
+            try
+            {
+                return await httpClient.GetFromJsonAsync<GridpointsTextualForecastResponse>(endPoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
                 throw;
             }
         }
@@ -86,7 +189,10 @@ namespace NationalWeatherServiceAPIClientLibrary
         /// </summary>
         /// <param name="lat">The latitude of the requested location</param>
         /// <param name="lon">The longitude of the requested locaiton</param>
-        /// <returns>A StationsResponse containing all the observation stations for the requested location</returns>
+        /// <returns>A <see cref="StationsResponse"/> containing all the observation stations for the requested location</returns>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         public async Task<StationsResponse> GetObservationStations(decimal lat, decimal lon)
         {
             try
@@ -94,27 +200,154 @@ namespace NationalWeatherServiceAPIClientLibrary
                 var gridPoint = await GetGridpointAsync(lat, lon);
                 return await GetObservationStations(gridPoint.Properties.GridId, gridPoint.Properties.GridX, gridPoint.Properties.GridY);
             }
-            catch (Exception)
+            catch (HttpRequestException ex)
             {
-
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
                 throw;
             }
         }
 
         /// <summary>
-        /// Gets all the observation stations for a given location, designated by the WeatherForecast Office ID and grid points.
+        /// Gets a list of observation stations usable for a given 2.5km grid, designated by the WeatherForecast Office ID and grid points.
         /// </summary>
         /// <param name="wfo">The Weather Forecast Office identifier for the given </param>
         /// <param name="gridX">Forecast grid X coordinate</param>
         /// <param name="gridY">Forecast grid y coordinate</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="StationsResponse"/> containing all the observation stations for the requested location</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">wfo - Must be a valid WeatherForecast Office Grid ID.</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         public async Task<StationsResponse> GetObservationStations(string wfo, int gridX, int gridY)
         {
+            if (!wfo.IsValidWFO())
+            {
+                logger.LogInformation($"The user entered and Invalid WFO: {wfo}");
+                throw new ArgumentOutOfRangeException(nameof(wfo), "Must be a valid WeatherForecast Office Grid ID.");
+            }
+
             string gridStationsEndpoint = $"gridpoint/{wfo}/{gridX},{gridY}/stations";
 
-            var stationsResponse = await httpClient.GetFromJsonAsync<StationsResponse>(gridStationsEndpoint);
+            try
+            {
+                return await httpClient.GetFromJsonAsync<StationsResponse>(gridStationsEndpoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
+                throw;
+            }
+        }
 
-            return stationsResponse;
+        public async Task<StationObservationResponse> GetObservationsForStation(string stationId)
+        {
+            if (string.IsNullOrWhiteSpace(stationId))
+            {
+                logger.LogInformation($"The user entered and Invalid Station Id: {stationId}");
+                throw new ArgumentNullException(nameof(stationId), "The Station Id cannot be null or empty space.");
+            }
+
+            string endPoint = $"stations/{stationId}/observations";
+
+            try
+            {
+                return await httpClient.GetFromJsonAsync<StationObservationResponse>(endPoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets the latest observation for a station.
+        /// </summary>
+        /// <param name="stationId">The Station Identifier for the station to check.</param>
+        /// <returns>A <see cref="StationObservationResponse"/> containing current weather data conditions.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">stationId - The Station Id cannot be null or empty space.</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
+        public async Task<StationObservationResponse> GetLatestConditionsForStation(string stationId)
+        {
+            if (string.IsNullOrWhiteSpace(stationId))
+            {
+                logger.LogInformation($"The user entered and Invalid Station Id: {stationId}");
+                throw new ArgumentNullException(nameof(stationId), "The Station Id cannot be null or empty space.");
+            }
+
+            string endPoint = $"stations/{stationId}/observations/latest";
+
+            try
+            {
+                return await httpClient.GetFromJsonAsync<StationObservationResponse>(endPoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
+                throw;
+            }
         }
 
         /// <summary>
@@ -122,116 +355,81 @@ namespace NationalWeatherServiceAPIClientLibrary
         /// </summary>
         /// <param name="lat">The latitude of the given point.</param>
         /// <param name="lon">The longitude of the point.</param>
-        /// <returns>A PointsResponse containing the metadata for the given latitude and longitude</returns>
+        /// <returns>A <see cref="PointsResponse"/> containing the metadata for the given latitude and longitude</returns>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         public async Task<PointsResponse> GetGridpointAsync(decimal lat, decimal lon)
         {
             var pointsEndPoint = $"/points/{lat},{lon}";
 
-            var response = await httpClient.GetFromJsonAsync<PointsResponse>(pointsEndPoint);
-
-            return response;
+            try
+            {
+                return await httpClient.GetFromJsonAsync<PointsResponse>(pointsEndPoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
+                throw;
+            }
         }
 
         /// <summary>
         /// Gets all weather stations for a given state from the API
         /// </summary>
-        /// <param name="state">The state to get the Weather Stations for</param>
-        /// <returns>A list of weather stations for the given state</returns>
+        /// <param name="state">The two character state abbreviation</param>
+        /// <returns>A <see cref="StationsResponse" /> containing data for all of the weather stations for the given state.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">state - Must be a 2 character string representing the State (i.e, 'TX', 'VA')</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         public async Task<StationsResponse> GetAllWeatherStationsForStateAsync(string state)
         {
+            if (string.IsNullOrWhiteSpace(state) || state.Length > 2)
+            {
+                logger.LogInformation($"The user entered and Invalid State: {state}");
+                throw new ArgumentOutOfRangeException(nameof(state), "Must be a 2 character string representing the State (i.e, 'TX', 'VA')");
+            }
+
             try
             {
-                if (string.IsNullOrWhiteSpace(state) || state.Length > 2)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(state), "Must be a 2 character string representing the State (i.e, 'TX', 'VA')");
-                }
                 return await httpClient.GetFromJsonAsync<StationsResponse>($"stations?state={state}");
             }
-            catch (Exception)
+            catch (HttpRequestException ex)
             {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
                 throw;
             }
-        }
-
-
-
-        // TODO: Move to service, not API wrapper
-        /// <summary>
-        /// Gets the weather forecast for a given latitude and longitude
-        /// </summary>
-        /// <param name="lat">Latitude</param>
-        /// <param name="lng">Longitude</param>
-        /// <returns>A ForecastResponse containing forecast data for the given latitude and longitude</returns>
-        public async Task<ForecastResponse> GetForecastAsync(decimal lat, decimal lng)
-        {
-            var pointsResponse = await GetGridpointAsync(lat, lng);
-
-            //Get the URL of the observation stations from the response
-            string forecastEndpoint = TrimEndpoint(pointsResponse.Properties.GridForecastUrl);
-
-            var forecastResponse = await httpClient.GetAsync(forecastEndpoint);
-
-            forecastResponse.EnsureSuccessStatusCode();
-
-            using Stream stream = await forecastResponse.Content.ReadAsStreamAsync();
-            using JsonDocument forecastDocument = await JsonDocument.ParseAsync(stream);
-
-            ForecastResponse forecast = forecastDocument.RootElement.GetProperty("properties").ToObject<ForecastResponse>();
-
-            forecast.Latitude = lat;
-            forecast.Longitude = lng;
-            forecast.ElevationInMeters = forecastDocument.RootElement.GetProperty("properties").GetProperty("elevation").GetProperty("value").GetInt32();
-            forecast.RawData = forecastDocument.RootElement.GetRawText();
-
-            return forecast;
-        }
-
-        //TODO: Move to service, not API wrapper
-        /// <summary>
-        /// Retrieves the closest weather station for the given latitude and longitude coordinates
-        /// </summary>
-        /// <param name="lat">Latitude to search</param>
-        /// <param name="lng">Longitude to search</param>
-        /// <param name="state">The United States state to search in</param>
-        /// <param name="stationsToExclude">Optional parameter can be used to exclude stations from being returned</param>
-        /// <returns>The closest weather station.</returns>
-        public async Task<ObservationStation> GetClosestWeatherObservationStationAsync(decimal lat, decimal lng, StateTypes state, List<string> stationsToExclude = null)
-        {
-            //TODO: Point to Refactored
-            var stationsResponse = await GetAllWeatherStationsForStateAsync(state.ToString());
-
-            var stations = stationsResponse.Stations;
-
-            if (stationsToExclude != null && stationsToExclude.Count > 0)
+            catch (NotSupportedException ex)
             {
-                stations = stations.Where(station => !stationsToExclude.Any(exclude => exclude == station.Properties.StationIdentifier)).ToList();
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
             }
-
-            ObservationStation closestStation = null;
-            double? distanceToClosest = null;
-
-            foreach (var station in stations)
+            catch (JsonException ex)
             {
-                GeoCoordinate stationCoordinates = new GeoCoordinate(Convert.ToDouble(station.Geometry.Value[1]), Convert.ToDouble(station.Geometry.Value[0]));
-                GeoCoordinate userCoordinates = new GeoCoordinate(Convert.ToDouble(lat), Convert.ToDouble(lng));
-
-                var distance = stationCoordinates.GetDistanceTo(userCoordinates);
-
-                if (!distanceToClosest.HasValue || distanceToClosest.Value > distance)
-                {
-                    distanceToClosest = distance;
-                    closestStation = station;
-                }
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
             }
-
-            return closestStation;
-        }
-
-        // TODO: Move to service, not API wrapper
-        private string TrimEndpoint(string fullUrl)
-        {
-            string baseAddress = httpClient.BaseAddress.ToString();
-            return fullUrl.Replace(baseAddress, "");
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
+                throw;
+            }
         }
     }
 }

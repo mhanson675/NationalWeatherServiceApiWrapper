@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
 {
-    public class StationsObservationsLatestsProperties
+    public class StationsObservationProperties
     {
         [JsonPropertyName("elevation")]
-        public Elevation Elevation { get; set; }
+        public QuantitativeValue<decimal?> Elevation { get; set; }
 
         [JsonPropertyName("station")]
         public string Station { get; set; }
@@ -32,46 +32,46 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.Respon
         public QuantitativeValue<double?> Dewpoint { get; set; }
 
         [JsonPropertyName("windDirection")]
-        public WindDirectionQV WindDirection { get; set; }
+        public QuantitativeValue<int?> WindDirection { get; set; }
 
         [JsonPropertyName("windSpeed")]
-        public WindSpeedQV WindSpeed { get; set; }
+        public QuantitativeValue<double?> WindSpeed { get; set; }
 
         [JsonPropertyName("windGust")]
-        public WindGustQV WindGust { get; set; }
+        public QuantitativeValue<double?> WindGust { get; set; }
 
         [JsonPropertyName("barometricPressure")]
-        public BarometricPressureQV BarometricPressure { get; set; }
+        public QuantitativeValue<int?> BarometricPressure { get; set; }
 
         [JsonPropertyName("seaLevelPressure")]
-        public SeaLevelPressureQV SeaLevelPressure { get; set; }
+        public QuantitativeValue<int?> SeaLevelPressure { get; set; }
 
         [JsonPropertyName("visibility")]
-        public VisibilityQV Visibility { get; set; }
+        public QuantitativeValue<int?> Visibility { get; set; }
 
         [JsonPropertyName("maxTemperatureLast24Hours")]
-        public MaxTemperatureLast24HoursQV MaxTemperatureLast24Hours { get; set; }
+        public QuantitativeValue<decimal?> MaxTemperatureLast24Hours { get; set; }
 
         [JsonPropertyName("minTemperatureLast24Hours")]
-        public MinTemperatureLast24HoursQV MinTemperatureLast24Hours { get; set; }
+        public QuantitativeValue<decimal?> MinTemperatureLast24Hours { get; set; }
 
         [JsonPropertyName("precipitationLastHour")]
-        public PrecipitationLastHourQV PrecipitationLastHour { get; set; }
+        public QuantitativeValue<int?> PrecipitationLastHour { get; set; }
 
         [JsonPropertyName("precipitationLast3Hours")]
-        public PrecipitationLast3HoursQV PrecipitationLast3Hours { get; set; }
+        public QuantitativeValue<int?> PrecipitationLast3Hours { get; set; }
 
         [JsonPropertyName("precipitationLast6Hours")]
-        public PrecipitationLast6HoursQV PrecipitationLast6Hours { get; set; }
+        public QuantitativeValue<int?> PrecipitationLast6Hours { get; set; }
 
         [JsonPropertyName("relativeHumidity")]
-        public RelativeHumidityQV RelativeHumidity { get; set; }
+        public QuantitativeValue<double?> RelativeHumidity { get; set; }
 
         [JsonPropertyName("windChill")]
-        public WindChillQV WindChill { get; set; }
+        public QuantitativeValue<decimal?> WindChill { get; set; }
 
         [JsonPropertyName("heatIndex")]
-        public HeatIndexQV HeatIndex { get; set; }
+        public QuantitativeValue<decimal?> HeatIndex { get; set; }
 
         [JsonPropertyName("cloudLayers")]
         public List<CloudLayer> CloudLayers { get; set; }

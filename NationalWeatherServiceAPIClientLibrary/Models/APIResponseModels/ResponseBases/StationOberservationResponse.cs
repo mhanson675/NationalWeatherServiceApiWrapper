@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases
 {
-    public class StationObservationsLatestResponse
+    public class StationObservationResponse
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
@@ -12,6 +12,6 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.Respon
         public GeoPoint Geometry { get; set; }
 
         [JsonPropertyName("properties")]
-        public StationsObservationsLatestsProperties Properties { get; set; }
+        public StationsObservationProperties Properties { get; set; }
     }
 }

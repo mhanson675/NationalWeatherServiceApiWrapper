@@ -1,17 +1,9 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties;
-using System;
-using System.Text;
+﻿using System;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases
+namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
 {
-    public class GridpointsForecastResponse
-    {
-        [JsonPropertyName("properties")]
-        public GridPointsForecastProperties Properties { get; set; }
-    }
-
-    public class Period
+    public class TextualForecastPeriod
     {
         [JsonPropertyName("number")]
         public int Number { get; set; }
@@ -35,7 +27,7 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.Respon
         public string TemperatureUnit { get; set; }
 
         [JsonPropertyName("temperatureTrend")]
-        public object TemperatureTrend { get; set; }
+        public string TemperatureTrend { get; set; }
 
         [JsonPropertyName("windSpeed")]
         public string WindSpeed { get; set; }

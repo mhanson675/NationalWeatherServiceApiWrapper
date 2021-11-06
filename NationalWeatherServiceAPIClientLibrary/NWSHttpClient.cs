@@ -8,7 +8,7 @@ namespace NationalWeatherServiceAPIClientLibrary
 {
     public class NWSHttpClient : HttpClient
     {
-        private const string userAgent = "NWS Weather Library for DotNet";
+        private const string userAgent = "NWS Weather API Wrapper Library for .Net";
         private const string baseAddress = "https://api.weather.gov";
 
         public NWSHttpClient()

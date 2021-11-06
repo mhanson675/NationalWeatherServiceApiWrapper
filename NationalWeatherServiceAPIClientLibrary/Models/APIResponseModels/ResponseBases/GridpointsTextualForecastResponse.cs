@@ -4,15 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases
 {
-    public class GridPointsRawForecastResponse
+    public class GridpointsTextualForecastResponse
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
+        [JsonPropertyName("properties")]
+        public GridPointsTextualForecastProperties Properties { get; set; }
 
         [JsonPropertyName("geometry")]
         public GeoPolygon Geometry { get; set; }
-
-        [JsonPropertyName("properties")]
-        public GridPointRawForecastProperties Properties { get; set; }
     }
 }

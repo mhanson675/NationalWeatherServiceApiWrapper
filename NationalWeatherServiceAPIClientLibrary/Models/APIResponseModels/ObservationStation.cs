@@ -1,10 +1,8 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels;
-using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties;
+﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties;
 using System.Text.Json.Serialization;
 
-namespace NationalWeatherServiceAPIClientLibrary.Models
+namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels
 {
-
     public class ObservationStation
     {
         [JsonPropertyName("id")]
@@ -16,5 +14,4 @@ namespace NationalWeatherServiceAPIClientLibrary.Models
         [JsonPropertyName("properties")]
         public ObservationStationProperties Properties { get; set; }
     }
-
 }

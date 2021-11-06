@@ -1,11 +1,12 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
+﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues;
+using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseBases;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
 {
-    public class GridPointsForecastProperties
+    public class GridPointsTextualForecastProperties
     {
         [JsonPropertyName("updated")]
         public DateTime Updated { get; set; }
@@ -26,9 +27,9 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.Respon
         public string ValidTimes { get; set; }
 
         [JsonPropertyName("elevation")]
-        public Elevation Elevation { get; set; }
+        public QuantitativeValue<decimal?> Elevation { get; set; }
 
         [JsonPropertyName("periods")]
-        public List<Period> Periods { get; set; }
+        public List<TextualForecastPeriod> Periods { get; set; }
     }
 }

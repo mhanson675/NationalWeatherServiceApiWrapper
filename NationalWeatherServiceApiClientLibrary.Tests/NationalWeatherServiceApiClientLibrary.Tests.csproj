@@ -24,12 +24,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="JsonSerializingTests.cs">
+    <Compile Update="ResponseTests\JsonSerializingTests.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="JsonResponseFiles\gridpointsforecasthourlyresponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="JsonResponseFiles\gridpointstextualforecastresponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="JsonResponseFiles\pointsresponse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -42,9 +48,19 @@
     <None Update="JsonResponseFiles\stationobservationslatestresponse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="JsonResponseFiles\stationobservationsresponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="JsonResponseFiles\stationobservationsresponsetime.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="JsonResponseFiles\stationsresponse.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UtilityData\" />
   </ItemGroup>
 
 </Project>

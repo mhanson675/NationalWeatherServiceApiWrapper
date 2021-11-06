@@ -18,9 +18,16 @@ namespace NationalWeatherServiceAPIClientLibrary.Extensions
             "STU", "NH1", "NH2", "ONA", "ONP"
         };
 
+        /// <summary>
+        /// Determines whether a string is a valid WeatherForecast Office Id. Based on the list of WFO Ids provided by the API.
+        /// </summary>
+        /// <param name="wfo">The three character WeatherForecast Office Id.</param>
+        /// <returns>
+        ///   <c>true</c> If the string is valid wfo; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsValidWFO(this string wfo)
         {
-            return validWFOList.Contains(wfo);
+            return !string.IsNullOrWhiteSpace(wfo) && validWFOList.Contains(wfo.ToUpper());
         }
     }
 }

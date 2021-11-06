@@ -1,4 +1,5 @@
 ﻿using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels;
+using NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.QuantitativeValues;
 using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.ResponseProperties
@@ -6,7 +7,7 @@ namespace NationalWeatherServiceAPIClientLibrary.Models.APIResponseModels.Respon
     public class ObservationStationProperties
     {
         [JsonPropertyName("elevation")]
-        public Elevation Elevation { get; set; }
+        public QuantitativeValue<decimal?> Elevation { get; set; }
 
         [JsonPropertyName("stationIdentifier")]
         public string StationIdentifier { get; set; }
