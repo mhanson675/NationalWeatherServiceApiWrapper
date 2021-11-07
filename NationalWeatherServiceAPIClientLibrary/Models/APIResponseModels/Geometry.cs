@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NationalWeatherServiceAPIClientLibrary.Converters;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -10,29 +11,34 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels
         [JsonPropertyName("type")]
         public string Type { get; set; }
     }
-    
-    public class GeoJsonCoordinate
-    {
-        public double[] Value { get; set; } = new double[2];
-    }
+
     public class GeoPoint
     {
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
+
         [JsonPropertyName("coordinates")]
-        public double[] Value { get; set; } = new double[2];
-        //public GeoJsonCoordinate Coordinates { get; set; }
+        [JsonConverter(typeof(PointArrayConverter))]
+        public double[] Coordinates { get; set; } = new double[2];
     }
 
     public class GeoPolygon
     {
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
+
         [JsonPropertyName("coordinates")]
-        public List<List<List<double>>> Coordinates { get; set; }
-        //public GeoJsonCoordinate[] Coordinates { get; set; } = new GeoJsonCoordinate[2];
+        [JsonConverter(typeof(PolygonArrayConverter))]
+        public List<List<double[]>> Coordinates { get; set; } = new List<List<double[]>>();
     }
 
-    public class GeoLineString
+    public class GeoLine
     {
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
+
         [JsonPropertyName("coordinates")]
-        public List<double[]> Coordinates { get; set; }
-        //public List<GeoJsonCoordinate> Coordinates { get; set; } = new List<GeoJsonCoordinate>();
+        [JsonConverter(typeof(LineStringArrayConverter))]
+        public List<double[]> Coordinates { get; set; } = new List<double[]>();
     }
 }

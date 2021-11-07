@@ -2,6 +2,7 @@ using NationalWeatherServiceAPI.Models.APIResponseModels;
 using NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases;
 using NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -39,6 +40,7 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
 
             Assert.NotNull(response);
             Assert.NotNull(response.Geometry);
+            //Assert.Equal(5, response.Geometry.Coordinates.Count());
             Assert.Equal(5, response.Geometry.Coordinates.First().Count);
             Assert.NotNull(response.Properties.Periods);
             Assert.Equal(62, response.Properties.Periods.First().Temperature);
@@ -85,7 +87,7 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
 
             Assert.NotNull(response);
             Assert.Equal(455, response.Observations.Count());
-            Assert.Equal(-79.5, response.Observations.First().Geometry.Value[0]);
+            Assert.Equal(-79.5, response.Observations.First().Geometry.Coordinates[0]);
             Assert.Equal(0.80000000000000004, response.Observations.First().Properties.Temperature.Value);
             Assert.Equal("Clear", response.Observations.First().Properties.TextDescription);
         }
@@ -148,6 +150,104 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
             Assert.Equal("EWX", response.Properties.GridId);
             Assert.Equal(120, response.Properties.GridX);
             Assert.Equal(52, response.Properties.GridY);
+        }
+
+        [Fact]
+        public async Task Serialize_GeoJsonPoint_Success()
+        {
+            string json = "{\"type\":\"Point\",\"coordinates\":[-98.64681249,29.398185]}";
+            var coordinate = new GeoPoint { Type = "Point", Coordinates = new double[] { -98.64681249, 29.398185 } };
+            var serialized = JsonSerializer.Serialize(coordinate);
+
+            Assert.Equal(json, serialized);
+        }
+
+        [Fact]
+        public async Task Deserialize_GeoJsonPoint_Success()
+        {
+            string json = "{\"type\":\"Point\",\"coordinates\":[-98.64681249,29.398185]}";
+            var point = JsonSerializer.Deserialize<GeoPoint>(json);
+
+            Assert.Equal(-98.64681249, point.Coordinates[0]);
+            Assert.Equal(29.398185, point.Coordinates[1]);
+        }
+
+        [Fact]
+        public async Task Serialize_GeoJsonLine_Success()
+        {
+            string json = "{\"type\":\"LineString\",\"coordinates\":[[-98.64681249,29.398185],[-98.619989,29.376031]]}";
+            var coordinate = new GeoLine
+            {
+                Type = "LineString",
+                Coordinates = new List<double[]>
+            {
+                new double[] { -98.64681249, 29.398185 },
+                new double[] { -98.619989, 29.376031 }
+            }
+            };
+            var serialized = JsonSerializer.Serialize(coordinate);
+
+            Assert.Equal(json, serialized);
+        }
+
+        [Fact]
+        public async Task Deserialize_GeoJsonLine_Success()
+        {
+            string json = "{\"type\":\"LineString\",\"coordinates\":[[-98.64681249,29.398185],[-98.619989,29.376031]]}";
+            var point = JsonSerializer.Deserialize<GeoLine>(json);
+
+            Assert.Equal(-98.64681249, point.Coordinates.First()[0]);
+            Assert.Equal(29.398185, point.Coordinates.First()[1]);
+        }
+
+        [Fact]
+        public async Task Serialize_GeoPoly_Success()
+        {
+            string json = "{\"type\":\"Polygon\",\"coordinates\":" +
+                "[" +
+                "[" +
+                "[-98.646812,29.39818]," +
+                "[-98.646109,29.37542]," +
+                "[-98.619989,29.37603]," +
+                "[-98.620687,29.39879]," +
+                "[-98.646812,29.39818]" +
+                "]]}";
+            var coordinate = new GeoPolygon
+            {
+                Type = "Polygon",
+                Coordinates = new List<List<double[]>>
+                {
+                    new List<double[]>
+                    {
+                        new double[] {-98.646812d,29.39818d},
+                        new double[] {-98.646109d,29.37542d},
+                        new double[] {-98.619989d,29.37603d},
+                        new double[] {-98.620687d,29.39879d},
+                        new double[] {-98.646812d,29.39818d}
+                    }
+                }
+            };
+            var serialized = JsonSerializer.Serialize(coordinate);
+
+            Assert.Equal(json, serialized);
+        }
+
+        [Fact]
+        public async Task Deserialize_GeoPoly_Success()
+        {
+            string json = "{\"type\":\"Polygon\",\"coordinates\":" +
+                            "[" +
+                            "[" +
+                            "[-98.646812,29.39818]," +
+                            "[-98.646109,29.37542]," +
+                            "[-98.619989,29.37603]," +
+                            "[-98.620687,29.39879]," +
+                            "[-98.646812,29.39818]" +
+                            "]]}";
+            var point = JsonSerializer.Deserialize<GeoPolygon>(json);
+
+            Assert.Equal(-98.646812, point.Coordinates.First().First()[0]);
+            Assert.Equal(29.39818, point.Coordinates.First().First()[1]);
         }
     }
 }
