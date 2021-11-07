@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace NationalWeatherServiceAPI.Extensions
 {
@@ -18,6 +19,13 @@ namespace NationalWeatherServiceAPI.Extensions
             "STU", "NH1", "NH2", "ONA", "ONP"
         };
 
+        private static string[] validStateList = new string[]
+        {
+            "AL", "AK", "AS", "AR", "AZ", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+            "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI",
+            "VA", "WA", "WV", "WI", "WY"
+        };
+
         /// <summary>
         /// Determines whether a string is a valid WeatherForecast Office Id. Based on the list of WFO Ids provided by the API.
         /// </summary>
@@ -29,5 +37,15 @@ namespace NationalWeatherServiceAPI.Extensions
         {
             return !string.IsNullOrWhiteSpace(wfo) && validWFOList.Contains(wfo.ToUpper());
         }
+
+        public static bool IsValidState(this string state)
+        {
+            return !string.IsNullOrWhiteSpace(state) && validStateList.Contains(state.ToUpper());
+        }
     }
+
+    //public static bool IsValidTimeFormat(this string time)
+    //{
+    //    var Month8601 = new Regex(@"/^([0 - 9]{ 4})-(1[0 - 2] | 0[1 - 9])$");
+    //}
 }

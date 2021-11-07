@@ -29,12 +29,15 @@ namespace NationalWeatherServiceAPI
         private readonly HttpClient httpClient;
         private readonly ILogger<WeatherDotGovApiWrapper> logger;
 
-        public WeatherDotGovApiWrapper()
+        public WeatherDotGovApiWrapper() : this(new NWSHttpClient(), NullLogger<WeatherDotGovApiWrapper>.Instance)
         {
-            httpClient = new NWSHttpClient();
         }
 
-        public WeatherDotGovApiWrapper(NWSHttpClient client, ILogger<WeatherDotGovApiWrapper> logger)
+        public WeatherDotGovApiWrapper(ILogger<WeatherDotGovApiWrapper> logger) : this(new NWSHttpClient(), logger)
+        {
+        }
+
+        public WeatherDotGovApiWrapper(HttpClient client, ILogger<WeatherDotGovApiWrapper> logger = null)
         {
             //TODO verify 'user-agent' header and base address
             httpClient = client;
@@ -269,6 +272,15 @@ namespace NationalWeatherServiceAPI
             }
         }
 
+        /// <summary>
+        /// Gets a list of observations for a station.
+        /// </summary>
+        /// <param name="stationId">The Station Identifier for the station to check.</param>
+        /// <returns>A <see cref="StationObservationResponse"/> containing current weather data conditions.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">stationId - The Station Id cannot be null or empty space.</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         public async Task<StationObservationResponse> GetObservationsForStation(string stationId)
         {
             if (string.IsNullOrWhiteSpace(stationId))
@@ -314,12 +326,63 @@ namespace NationalWeatherServiceAPI
         /// <exception cref="HttpRequestException"></exception>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="JsonException"></exception>
-        public async Task<StationObservationResponse> GetLatestConditionsForStation(string stationId)
+        public async Task<StationObservationResponse> GetLatestObservationsForStation(string stationId)
         {
             if (string.IsNullOrWhiteSpace(stationId))
             {
                 logger.LogInformation($"The user entered and Invalid Station Id: {stationId}");
                 throw new ArgumentNullException(nameof(stationId), "The Station Id cannot be null or empty space.");
+            }
+
+            string endPoint = $"stations/{stationId}/observations/latest";
+
+            try
+            {
+                return await httpClient.GetFromJsonAsync<StationObservationResponse>(endPoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError("The HttpRequest was not successful: {@Exception}", ex);
+                throw;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.LogError("The Json Format was not support: {@Exception}", ex);
+                throw;
+            }
+            catch (JsonException ex)
+            {
+                logger.LogError("There was a Json Exception: {@Exception}", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("There was an unexpected exception: {@Exception}", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets a specific observation for a station, designated by the given time.
+        /// </summary>
+        /// <param name="stationId">The Station Identifier for the station to check.</param>
+        /// <param name="time">The request observation time</param>
+        /// <returns>A <see cref="StationObservationResponse"/> containing current weather data conditions.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">stationId - The Station Id cannot be null or empty space.</exception>
+        /// <exception cref="HttpRequestException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
+        public async Task<StationObservationResponse> GetSpecificObservationForStation(string stationId, string time)
+        {
+            if (string.IsNullOrWhiteSpace(stationId))
+            {
+                logger.LogInformation($"The user entered and Invalid Station Id: {stationId}");
+                throw new ArgumentNullException(nameof(stationId), "The Station Id cannot be null or empty space.");
+            }
+
+            if (string.IsNullOrWhiteSpace(time))
+            {
+                throw new ArgumentException($"'{nameof(time)}' cannot be null or whitespace.", nameof(time));
             }
 
             string endPoint = $"stations/{stationId}/observations/latest";

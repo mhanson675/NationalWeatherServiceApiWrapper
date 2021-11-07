@@ -3,6 +3,12 @@
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<LangVersion>8.0</LangVersion>
+		<Authors>Scotty Hanson</Authors>
+		<Description>APIWrapper for the National Weather Service api (api.weather.gov)</Description>
+		<Company>Scotty Doesn't Know</Company>
+		<RepositoryUrl>https://github.com/mhanson675/NationalWeatherServiceApiWrapper</RepositoryUrl>
+		<RepositoryType>Github</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<ItemGroup>
