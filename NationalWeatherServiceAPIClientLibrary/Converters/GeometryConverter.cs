@@ -8,14 +8,10 @@ using System.Text.Json.Serialization;
 namespace NationalWeatherServiceAPI.Converters
 {
     //TODO: USE OR DELETE
-    public class GeometryConverterWithTypeDisciminator : JsonConverter<Geometry>
+    public class GeometryConverter : JsonConverter<Geometry>
     {
-        enum TypeDiscriminator
-        {
-            Point = 1,
-            Polygon,
-            Line,
-        }
+        private enum TypeDiscriminator
+        { Point, Polygon, LineString }
 
         public override bool CanConvert(Type typeToConvert) => typeof(Geometry).IsAssignableFrom(typeToConvert);
 
@@ -27,14 +23,12 @@ namespace NationalWeatherServiceAPI.Converters
             }
 
             reader.Read();
-
             if (reader.TokenType != JsonTokenType.PropertyName)
             {
                 throw new JsonException();
             }
 
             string propertyName = reader.GetString();
-
             if (propertyName != "type")
             {
                 throw new JsonException();
@@ -45,39 +39,18 @@ namespace NationalWeatherServiceAPI.Converters
             {
                 throw new JsonException();
             }
-            
-            string type = reader.GetString();
 
-            if (!Enum.TryParse(type, out TypeDiscriminator typeDiscriminator)) throw new JsonException();
-
-            
-            //Geometry geometry = typeDiscriminator switch
+            //Geometry geometry = reader.GetString() switch
             //{
-            //    TypeDiscriminator.Point => new GeoPoint(),
-            //    TypeDiscriminator.Polygon => new GeoPolygon(),
-            //    TypeDiscriminator.Line => new GeoLineString(),
+            //    "Point" => new GeoPoint(),
+            //    "Polygon" => new GeoPolygon(),
+            //    "LineString" => new GeoLine(),
             //    _ => throw new JsonException()
             //};
 
-            while (reader.Read())
+            var value = reader.Read();
+            if (reader.TokenType != JsonTokenType.StartArray)
             {
-                if (reader.TokenType == JsonTokenType.EndObject)
-                {
-                    //TODO: Fix if using
-                    return null;
-                    //return geometry;
-                }
-
-                if (reader.TokenType == JsonTokenType.PropertyName)
-                {
-                    propertyName = reader.GetString();
-                    reader.Read();
-                    switch (propertyName)
-                    {
-                        default:
-                            throw new JsonException();
-                    }
-                }
             }
 
             throw new JsonException();
