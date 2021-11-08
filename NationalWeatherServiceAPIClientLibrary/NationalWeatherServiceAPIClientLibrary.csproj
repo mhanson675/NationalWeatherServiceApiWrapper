@@ -9,6 +9,9 @@
 		<RepositoryUrl>https://github.com/mhanson675/NationalWeatherServiceApiWrapper</RepositoryUrl>
 		<RepositoryType>Github</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<AssemblyVersion>1.1.0.0</AssemblyVersion>
+		<FileVersion>1.1.0.0</FileVersion>
+		<Version>1.1.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
