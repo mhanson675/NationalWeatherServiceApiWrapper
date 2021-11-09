@@ -1,7 +1,5 @@
-﻿using NationalWeatherServiceAPIClientLibrary.Converters;
-using System;
+﻿using NationalWeatherServiceAPI.Converters;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels
