@@ -10,7 +10,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels
 #pragma warning disable CS1591
 
         [JsonPropertyName("geometry")]
-        public GeoPoint Geometry { get; set; }
+        public Geometry<GeoPoint> Geometry { get; set; }
 
         [JsonPropertyName("properties")]
         public RelativeLocationProperties Properties { get; set; }

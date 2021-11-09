@@ -155,55 +155,57 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
         }
 
         [Fact]
-        public async Task Serialize_GeoJsonPoint_Success()
+        public void Serialize_GeoJsonPoint_Success()
         {
             string json = "{\"type\":\"Point\",\"coordinates\":[-98.64681249,29.398185]}";
-            var coordinate = new GeoPoint { Type = "Point", Coordinates = new double[] { -98.64681249, 29.398185 } };
-            var serialized = JsonSerializer.Serialize(coordinate);
+            var point = new Geometry<GeoPoint> { Type = "Point", Coordinates = new GeoPoint { Longitude = -98.64681249, Latitude = 29.398185 } };
+            var serialized = JsonSerializer.Serialize(point);
 
             Assert.Equal(json, serialized);
         }
 
         [Fact]
-        public async Task Deserialize_GeoJsonPoint_Success()
+        public void Deserialize_GeoJsonPoint_Success()
         {
             string json = "{\"type\":\"Point\",\"coordinates\":[-98.64681249,29.398185]}";
-            var point = JsonSerializer.Deserialize<GeoPoint>(json);
+            var point = JsonSerializer.Deserialize<Geometry<GeoPoint>>(json);
 
-            Assert.Equal(-98.64681249, point.Coordinates[0]);
-            Assert.Equal(29.398185, point.Coordinates[1]);
+            Assert.Equal("Point", point.Type);
+            Assert.Equal(-98.64681249, point.Coordinates.Longitude);
+            Assert.Equal(29.398185, point.Coordinates.Latitude);
         }
 
         [Fact]
-        public async Task Serialize_GeoJsonLine_Success()
+        public void Serialize_GeoJsonLine_Success()
         {
             string json = "{\"type\":\"LineString\",\"coordinates\":[[-98.64681249,29.398185],[-98.619989,29.376031]]}";
-            var coordinate = new GeoLine
+            var line = new Geometry<GeoLine>
             {
                 Type = "LineString",
-                Coordinates = new List<double[]>
+                Coordinates = new GeoLine
             {
-                new double[] { -98.64681249, 29.398185 },
-                new double[] { -98.619989, 29.376031 }
+                new GeoPoint { Longitude = -98.64681249, Latitude = 29.398185 },
+                new GeoPoint { Longitude = -98.619989, Latitude = 29.376031 }
             }
             };
-            var serialized = JsonSerializer.Serialize(coordinate);
+            var serialized = JsonSerializer.Serialize(line);
 
             Assert.Equal(json, serialized);
         }
 
         [Fact]
-        public async Task Deserialize_GeoJsonLine_Success()
+        public void Deserialize_GeoJsonLine_Success()
         {
             string json = "{\"type\":\"LineString\",\"coordinates\":[[-98.64681249,29.398185],[-98.619989,29.376031]]}";
-            var point = JsonSerializer.Deserialize<GeoLine>(json);
+            var line = JsonSerializer.Deserialize<Geometry<GeoLine>>(json);
 
-            Assert.Equal(-98.64681249, point.Coordinates.First()[0]);
-            Assert.Equal(29.398185, point.Coordinates.First()[1]);
+            Assert.Equal("LineString", line.Type);
+            Assert.Equal(-98.64681249, line.Coordinates.First().Longitude);
+            Assert.Equal(29.398185, line.Coordinates.First().Latitude);
         }
 
         [Fact]
-        public async Task Serialize_GeoPoly_Success()
+        public void Serialize_GeoPoly_Success()
         {
             string json = "{\"type\":\"Polygon\",\"coordinates\":" +
                 "[" +
@@ -214,42 +216,82 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
                 "[-98.620687,29.39879]," +
                 "[-98.646812,29.39818]" +
                 "]]}";
-            var coordinate = new GeoPolygon
+            var polygon = new Geometry<GeoPolygon>
             {
                 Type = "Polygon",
-                Coordinates = new List<List<double[]>>
+                Coordinates = new GeoPolygon
                 {
-                    new List<double[]>
+                    new GeoLine
                     {
-                        new double[] {-98.646812d,29.39818d},
-                        new double[] {-98.646109d,29.37542d},
-                        new double[] {-98.619989d,29.37603d},
-                        new double[] {-98.620687d,29.39879d},
-                        new double[] {-98.646812d,29.39818d}
+                        new GeoPoint {Longitude = -98.646812, Latitude = 29.39818},
+                        new GeoPoint {Longitude = -98.646109, Latitude = 29.37542},
+                        new GeoPoint {Longitude = -98.619989, Latitude = 29.37603},
+                        new GeoPoint {Longitude = -98.620687, Latitude = 29.39879},
+                        new GeoPoint {Longitude = -98.646812, Latitude = 29.39818}
                     }
                 }
             };
-            var serialized = JsonSerializer.Serialize(coordinate);
+            var serialized = JsonSerializer.Serialize(polygon);
 
             Assert.Equal(json, serialized);
         }
 
         [Fact]
-        public async Task Deserialize_GeoPoly_Success()
+        public void Deserialize_GeoPoly_Success()
         {
-            string json = "{\"type\":\"Polygon\",\"coordinates\":" +
-                            "[" +
-                            "[" +
-                            "[-98.646812,29.39818]," +
-                            "[-98.646109,29.37542]," +
-                            "[-98.619989,29.37603]," +
-                            "[-98.620687,29.39879]," +
-                            "[-98.646812,29.39818]" +
-                            "]]}";
-            var point = JsonSerializer.Deserialize<GeoPolygon>(json);
+            string json = "{\"type\":\"Polygon\",\"coordinates\":[" +
+                            "[[-98.646812,29.39818],[-98.646109,29.37542],[-98.619989,29.37603],[-98.620687,29.39879],[-98.646812,29.39818]]" +
+                            "]}";
+            var polygon = JsonSerializer.Deserialize<Geometry<GeoPolygon>>(json);
 
-            Assert.Equal(-98.646812, point.Coordinates.First().First()[0]);
-            Assert.Equal(29.39818, point.Coordinates.First().First()[1]);
+            Assert.Equal("Polygon", polygon.Type);
+            Assert.Equal(-98.646812, polygon.Coordinates.First().First().Longitude);
+            Assert.Equal(29.39818, polygon.Coordinates.First().First().Latitude);
+        }
+
+        [Fact]
+        public void Serialize_GeoPoly_With_Hole_Success()
+        {
+            string json = "{\"type\":\"Polygon\",\"coordinates\":[" +
+                            "[[-98.646812,29.39818],[-98.646109,29.37542],[-98.619989,29.37603]]," +
+                            "[[-98.620687,29.39879],[-98.646812,29.39818]]" +
+                            "]}";
+            var polygon = new Geometry<GeoPolygon>
+            {
+                Type = "Polygon",
+                Coordinates = new GeoPolygon
+                {
+                    new GeoLine
+                    {
+                        new GeoPoint {Longitude = -98.646812, Latitude = 29.39818},
+                        new GeoPoint {Longitude = -98.646109, Latitude = 29.37542},
+                        new GeoPoint {Longitude = -98.619989, Latitude = 29.37603}
+                    },
+                    new GeoLine
+                    {
+                        new GeoPoint {Longitude = -98.620687, Latitude = 29.39879},
+                        new GeoPoint {Longitude = -98.646812, Latitude = 29.39818}
+                    }
+                }
+            };
+            var serialized = JsonSerializer.Serialize(polygon);
+
+            Assert.Equal(json, serialized);
+        }
+
+        [Fact]
+        public void Deserialize_GeoPoly_With_Hole_Success()
+        {
+            string json = "{\"type\":\"Polygon\",\"coordinates\":[" +
+                            "[[-98.646812,29.39818],[-98.646109,29.37542],[-98.619989,29.37603]]," +
+                            "[[-98.620687,29.39879],[-98.646812,29.39818]]" +
+                            "]}";
+            var polygon = JsonSerializer.Deserialize<Geometry<GeoPolygon>>(json);
+
+            Assert.Equal("Polygon", polygon.Type);
+            Assert.Equal(2, polygon.Coordinates.Count());
+            Assert.Equal(-98.646812, polygon.Coordinates.First().First().Longitude);
+            Assert.Equal(29.39818, polygon.Coordinates.First().First().Latitude);
         }
     }
 }

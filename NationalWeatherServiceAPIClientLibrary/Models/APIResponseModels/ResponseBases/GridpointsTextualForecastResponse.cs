@@ -15,8 +15,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases
         public GridPointsTextualForecastProperties Properties { get; set; }
 
         [JsonPropertyName("geometry")]
-        public GeoPolygon Geometry { get; set; }
-
-#pragma warning restore CS1591
+        public Geometry<GeoPolygon> Geometry { get; set; }
+#pragma warning disable CS1591
     }
 }
