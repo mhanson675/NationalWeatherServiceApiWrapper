@@ -24,11 +24,12 @@ namespace NationalWeatherServiceAPI
     ///  Supports logging if a <see cref="ILogger{TCategoryName}"/> is provided in the constructor.
     /// </para>
     /// </summary>
-    public class WeatherDotGovApiWrapper
+    public class WeatherDotGovApiWrapper : IDisposable
     {
         private readonly HttpClient httpClient;
         private readonly ILogger<WeatherDotGovApiWrapper> logger;
 
+        private bool isDisposed;
         public WeatherDotGovApiWrapper() : this(new NWSHttpClient(), NullLogger<WeatherDotGovApiWrapper>.Instance)
         {
         }
@@ -493,6 +494,34 @@ namespace NationalWeatherServiceAPI
                 logger.LogError("There was an unexpected exception: {@Exception}", ex);
                 throw;
             }
+        }
+
+
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">Indicates if disposing was called.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!isDisposed)
+            {
+                if (disposing)
+                {
+                    httpClient.Dispose();
+                }
+
+                isDisposed = true;
+            }
+        }
+
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
