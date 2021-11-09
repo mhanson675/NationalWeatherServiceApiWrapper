@@ -24,7 +24,7 @@ namespace NationalWeatherServiceAPI
     ///  Supports logging if a <see cref="ILogger{TCategoryName}"/> is provided in the constructor.
     /// </para>
     /// </summary>
-    public class WeatherDotGovApiWrapper : IDisposable
+    public class WeatherDotGovApiWrapper : IWeatherDotGovApiWrapper, IDisposable
     {
         private readonly HttpClient httpClient;
         private readonly ILogger<WeatherDotGovApiWrapper> logger;
