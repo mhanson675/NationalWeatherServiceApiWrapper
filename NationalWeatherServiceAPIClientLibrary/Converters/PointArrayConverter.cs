@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NationalWeatherServiceAPI.Models.APIResponseModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
@@ -6,21 +7,47 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Converters
 {
-    public class PointArrayConverter : JsonConverter<double[]>
+    public class PointArrayConverter : JsonConverter<GeoPoint>
     {
-        public override double[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override GeoPoint Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType != JsonTokenType.StartArray)
             {
                 throw new JsonException();
             }
 
-            return JsonSerializer.Deserialize<double[]>(ref reader, options);
+            reader.Read();
+            if (reader.TokenType != JsonTokenType.Number)
+            {
+                throw new JsonException();
+            }
+
+            GeoPoint point = new GeoPoint();
+
+            point.Longitude = reader.GetDouble();
+
+            reader.Read();
+            if (reader.TokenType != JsonTokenType.Number)
+            {
+                throw new JsonException();
+            }
+
+            point.Latitude = reader.GetDouble();
+
+            reader.Read();
+            if (reader.TokenType != JsonTokenType.EndArray)
+            {
+                throw new JsonException();
+            }
+
+            return point;
         }
 
-        public override void Write(Utf8JsonWriter writer, double[] value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, GeoPoint value, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            double[] pointArray = new double[] { value.Longitude, value.Latitude };
+
+            JsonSerializer.Serialize(writer, pointArray, pointArray.GetType(), options);
         }
     }
 }

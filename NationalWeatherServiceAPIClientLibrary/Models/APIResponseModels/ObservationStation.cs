@@ -9,7 +9,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels
         public string Id { get; set; }
 
         [JsonPropertyName("geometry")]
-        public GeoPoint Geometry { get; set; }
+        public Geometry<GeoPoint> Geometry { get; set; }
 
         [JsonPropertyName("properties")]
         public ObservationStationProperties Properties { get; set; }

@@ -6,39 +6,27 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels
 {
-    public abstract class Geometry
+    public class Geometry<T>
     {
         [JsonPropertyName("type")]
         public string Type { get; set; }
+
+        [JsonPropertyName("coordinates")]
+        public T Coordinates { get; set; }
     }
 
+    [JsonConverter(typeof(PointArrayConverter))]
     public class GeoPoint
     {
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonPropertyName("coordinates")]
-        [JsonConverter(typeof(PointArrayConverter))]
-        public double[] Coordinates { get; set; } = new double[2];
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 
-    public class GeoPolygon
+    public class GeoPolygon : List<GeoLine>
     {
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonPropertyName("coordinates")]
-        [JsonConverter(typeof(PolygonArrayConverter))]
-        public List<List<double[]>> Coordinates { get; set; } = new List<List<double[]>>();
     }
 
-    public class GeoLine
+    public class GeoLine : List<GeoPoint>
     {
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonPropertyName("coordinates")]
-        [JsonConverter(typeof(LineStringArrayConverter))]
-        public List<double[]> Coordinates { get; set; } = new List<double[]>();
     }
 }
