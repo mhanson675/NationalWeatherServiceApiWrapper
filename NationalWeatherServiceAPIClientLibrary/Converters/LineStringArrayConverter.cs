@@ -6,8 +6,13 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Converters
 {
+    /// <summary>
+    /// Json converter for converting a GeoJsonLineString to and form a LineString type
+    /// </summary>
     public class LineStringArrayConverter : JsonConverter<List<double[]>>
     {
+#pragma warning disable CS1591
+
         public override List<double[]> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType != JsonTokenType.StartArray)
@@ -22,5 +27,7 @@ namespace NationalWeatherServiceAPIClientLibrary.Converters
         {
             JsonSerializer.Serialize(writer, value, value.GetType(), options);
         }
+
+#pragma warning restore CS1591
     }
 }

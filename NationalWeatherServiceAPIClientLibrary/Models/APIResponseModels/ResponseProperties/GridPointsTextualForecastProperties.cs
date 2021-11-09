@@ -6,6 +6,11 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
+    /// <summary>
+    /// A class representing the forecast properties returned by the Weather.gov Api '/gridpoints/{wfp}/{gridX},{gridY}/forecast' or '/gridpoints/{wfo}/{gridX},{gridY}/forecast/hourly endpoint
+    /// </summary>
+#pragma warning disable CS1591
+
     public class GridPointsTextualForecastProperties
     {
         [JsonPropertyName("updated")]
@@ -32,4 +37,6 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         [JsonPropertyName("periods")]
         public List<TextualForecastPeriod> Periods { get; set; }
     }
+
+#pragma warning restore CS1591
 }

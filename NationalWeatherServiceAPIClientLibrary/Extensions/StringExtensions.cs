@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
+#pragma warning disable CS1591
+
 namespace NationalWeatherServiceAPI.Extensions
 {
     public static class StringExtensions
@@ -49,3 +51,5 @@ namespace NationalWeatherServiceAPI.Extensions
     //    var Month8601 = new Regex(@"/^([0 - 9]{ 4})-(1[0 - 2] | 0[1 - 9])$");
     //}
 }
+
+#pragma warning restore CS1591

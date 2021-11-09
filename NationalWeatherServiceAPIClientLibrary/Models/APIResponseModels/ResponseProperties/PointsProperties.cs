@@ -3,6 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
+    /// <summary>
+    /// A class representing the properties for the data returned by the Weather.gov Api '/points/{point}' endpoint
+    /// </summary>
+#pragma warning disable CS1591
+
     public class PointsProperties
     {
         [JsonPropertyName("@id")]
@@ -50,4 +55,6 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         [JsonPropertyName("radarStation")]
         public string RadarStation { get; set; }
     }
+
+#pragma warning restore CS1591
 }

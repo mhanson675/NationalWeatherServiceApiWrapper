@@ -3,8 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels
 {
+    /// <summary>
+    /// A class representing the properties for a Relative Location returned by the Weather.gov
+    /// </summary>
     public class RelativeLocationProperties
     {
+#pragma warning disable CS1591
+
         [JsonPropertyName("city")]
         public string City { get; set; }
 
@@ -16,5 +21,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels
 
         [JsonPropertyName("bearing")]
         public QuantitativeValue<int?> Bearing { get; set; }
+
+#pragma warning restore CS1591
     }
 }

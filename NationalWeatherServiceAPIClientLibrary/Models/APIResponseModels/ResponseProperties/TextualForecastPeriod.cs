@@ -3,6 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
+    /// <summary>
+    /// A class representing a textual forecast period returned by the Weather.gov Api
+    /// </summary>
+#pragma warning disable CS1591
+
     public class TextualForecastPeriod
     {
         [JsonPropertyName("number")]
@@ -44,4 +49,6 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         [JsonPropertyName("detailedForecast")]
         public string DetailedForecast { get; set; }
     }
+
+#pragma warning restore CS1591
 }

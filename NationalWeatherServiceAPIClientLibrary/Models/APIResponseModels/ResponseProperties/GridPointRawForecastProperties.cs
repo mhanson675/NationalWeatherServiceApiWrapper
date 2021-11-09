@@ -4,6 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
+    /// <summary>
+    /// A class representing the forecast properties returned by the Weather.gov Api '/gridpoints/{wfp}/{gridX},{gridY}' endpoint
+    /// </summary>
+#pragma warning disable CS1591
+
     public class GridPointRawForecastProperties
     {
         [JsonPropertyName("@id")]
@@ -84,4 +89,6 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         [JsonPropertyName("snowLevel")]
         public GridPointQuantitativeValueList<int?> SnowLevel { get; set; }
     }
+
+#pragma warning restore CS1591
 }

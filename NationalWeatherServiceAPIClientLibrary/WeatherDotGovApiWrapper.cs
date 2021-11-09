@@ -29,14 +29,30 @@ namespace NationalWeatherServiceAPI
         private readonly HttpClient httpClient;
         private readonly ILogger<WeatherDotGovApiWrapper> logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherDotGovApiWrapper"/> class.
+        /// An <see cref="HttpClient"/> with be created with each instance. It's recommended that this is created as a singleton if using this constructor.
+        /// There will be no logging functionality with this instance.
+        /// </summary>
         public WeatherDotGovApiWrapper() : this(new NWSHttpClient(), NullLogger<WeatherDotGovApiWrapper>.Instance)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherDotGovApiWrapper"/> class with the provided ILogger.
+        /// An <see cref="HttpClient"/> with be created with each instance. It's recommended that this is created as a singleton if using this constructor.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
         public WeatherDotGovApiWrapper(ILogger<WeatherDotGovApiWrapper> logger) : this(new NWSHttpClient(), logger)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherDotGovApiWrapper"/> class with the provided HttpClient and the optional ILogger.
+        /// If the ILogger is null, no loggin functionality will be available with this instance.
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <param name="logger">The logger.</param>
         public WeatherDotGovApiWrapper(HttpClient client, ILogger<WeatherDotGovApiWrapper> logger = null)
         {
             //TODO verify 'user-agent' header and base address

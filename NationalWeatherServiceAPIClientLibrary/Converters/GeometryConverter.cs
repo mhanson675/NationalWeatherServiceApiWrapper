@@ -7,6 +7,8 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Converters
 {
+#pragma warning disable CS1591
+
     //TODO: USE OR DELETE
     public class GeometryConverter : JsonConverter<Geometry>
     {
@@ -61,4 +63,6 @@ namespace NationalWeatherServiceAPI.Converters
             throw new NotImplementedException();
         }
     }
+
+#pragma warning restore CS1591
 }

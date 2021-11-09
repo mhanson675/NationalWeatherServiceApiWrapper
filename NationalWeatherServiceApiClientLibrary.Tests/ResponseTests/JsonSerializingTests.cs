@@ -10,6 +10,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
+#pragma warning disable CS1591, CS1998
+
 namespace NationalWeatherServiceApiClientLibrary.Tests
 {
     public class JsonSerializingTests
@@ -251,3 +253,5 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
         }
     }
 }
+
+#pragma warning restore CS1591, CS1998

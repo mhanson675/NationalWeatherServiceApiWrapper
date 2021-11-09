@@ -4,6 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
+    /// <summary>
+    /// A class representing the properties for an observation station returned by the Weather.gov Api
+    /// </summary>
+#pragma warning disable CS1591
+
     public class ObservationStationProperties
     {
         [JsonPropertyName("elevation")]
@@ -27,4 +32,6 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         [JsonPropertyName("fireWeatherZone")]
         public string FireWeatherZoneUrl { get; set; }
     }
+
+#pragma warning restore CS1591
 }

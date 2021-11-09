@@ -5,6 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
 {
+    /// <summary>
+    /// A class representing the forecast properties returned by the Weather.gov Api '/stations/{stationId}/observations/latest' or '/stations/{stationId/observations/{time} endpoint
+    /// </summary>
+#pragma warning disable CS1591
+
     public class StationsObservationProperties
     {
         [JsonPropertyName("elevation")]
@@ -76,4 +81,6 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         [JsonPropertyName("cloudLayers")]
         public List<CloudLayer> CloudLayers { get; set; }
     }
+
+#pragma warning restore CS1591
 }

@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<LangVersion>8.0</LangVersion>
 		<Authors>Scotty Hanson</Authors>
 		<Description>APIWrapper for the National Weather Service api (api.weather.gov)</Description>
@@ -9,6 +10,13 @@
 		<RepositoryUrl>https://github.com/mhanson675/NationalWeatherServiceApiWrapper</RepositoryUrl>
 		<RepositoryType>Github</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Version>1.0.1.0</Version>
+	</PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageProjectUrl>https://github.com/mhanson675/NationalWeatherServiceApiWrapper</PackageProjectUrl>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -16,5 +24,9 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
 		<PackageReference Include="System.IO" Version="4.3.0" />
 		<PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+		<Content Include="docs\Readme.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</Content>
 	</ItemGroup>
 </Project>
