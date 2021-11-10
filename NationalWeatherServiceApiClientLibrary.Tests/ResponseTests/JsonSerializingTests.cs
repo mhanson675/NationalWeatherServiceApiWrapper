@@ -89,7 +89,7 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
 
             Assert.NotNull(response);
             Assert.Equal(455, response.Observations.Count());
-            Assert.Equal(-79.5, response.Observations.First().Geometry.Coordinates[0]);
+            Assert.Equal(-79.5, response.Observations.First().Geometry.Coordinates.Longitude);
             Assert.Equal(0.80000000000000004, response.Observations.First().Properties.Temperature.Value);
             Assert.Equal("Clear", response.Observations.First().Properties.TextDescription);
         }
