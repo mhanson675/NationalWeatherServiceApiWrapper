@@ -7,6 +7,11 @@ using System.Text.Json.Serialization;
 
 namespace NationalWeatherServiceAPIClientLibrary.Converters
 {
+    /// <summary>
+    /// JSon Converter for converting a Point Array to a Geopoint
+    /// </summary>
+#pragma warning disable CS1591
+
     public class PointArrayConverter : JsonConverter<GeoPoint>
     {
         public override GeoPoint Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

@@ -30,6 +30,12 @@ namespace NationalWeatherServiceAPI
         private readonly ILogger<WeatherDotGovApiWrapper> logger;
 
         private bool isDisposed;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherDotGovApiWrapper"/>.
+        /// An <see cref="HttpClient"/> with be created with each instance. It's recommended that this is created as a singleton if using this constructor.
+        /// Logging will not be enabled
+        /// </summary>
         public WeatherDotGovApiWrapper() : this(new NWSHttpClient(), NullLogger<WeatherDotGovApiWrapper>.Instance)
         {
         }
@@ -506,7 +512,6 @@ namespace NationalWeatherServiceAPI
                 throw;
             }
         }
-
 
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

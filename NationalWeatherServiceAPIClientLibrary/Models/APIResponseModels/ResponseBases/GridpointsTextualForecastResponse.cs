@@ -16,6 +16,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseBases
 
         [JsonPropertyName("geometry")]
         public Geometry<GeoPolygon> Geometry { get; set; }
-#pragma warning disable CS1591
+
+#pragma warning restore CS1591
     }
 }
