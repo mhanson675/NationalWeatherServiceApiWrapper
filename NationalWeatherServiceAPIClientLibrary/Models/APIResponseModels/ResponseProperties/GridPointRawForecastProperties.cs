@@ -21,7 +21,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         public string ValidTimes { get; set; }
 
         [JsonPropertyName("elevation")]
-        public QuantitativeValue<decimal?> Elevation { get; set; }
+        public QuantitativeValue<double?> Elevation { get; set; }
 
         [JsonPropertyName("forecastOffice")]
         public string ForecastOffice { get; set; }
@@ -36,28 +36,28 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         public string GridY { get; set; }
 
         [JsonPropertyName("temperature")]
-        public GridPointQuantitativeValueList<decimal?> Temperature { get; set; }
+        public GridPointQuantitativeValueList<double?> Temperature { get; set; }
 
         [JsonPropertyName("dewpoint")]
-        public GridPointQuantitativeValueList<decimal?> Dewpoint { get; set; }
+        public GridPointQuantitativeValueList<double?> Dewpoint { get; set; }
 
         [JsonPropertyName("maxTemperature")]
-        public GridPointQuantitativeValueList<decimal?> MaxTemperature { get; set; }
+        public GridPointQuantitativeValueList<double?> MaxTemperature { get; set; }
 
         [JsonPropertyName("minTemperature")]
-        public GridPointQuantitativeValueList<decimal?> MinTemperature { get; set; }
+        public GridPointQuantitativeValueList<double?> MinTemperature { get; set; }
 
         [JsonPropertyName("relativeHumidity")]
         public GridPointQuantitativeValueList<int?> RelativeHumidity { get; set; }
 
         [JsonPropertyName("apparentTemperature")]
-        public GridPointQuantitativeValueList<decimal?> ApparentTemperature { get; set; }
+        public GridPointQuantitativeValueList<double?> ApparentTemperature { get; set; }
 
         [JsonPropertyName("heatIndex")]
-        public GridPointQuantitativeValueList<decimal?> HeatIndex { get; set; }
+        public GridPointQuantitativeValueList<double?> HeatIndex { get; set; }
 
         [JsonPropertyName("windChill")]
-        public GridPointQuantitativeValueList<decimal?> WindChill { get; set; }
+        public GridPointQuantitativeValueList<double?> WindChill { get; set; }
 
         [JsonPropertyName("skyCover")]
         public GridPointQuantitativeValueList<int?> SkyCover { get; set; }
@@ -66,10 +66,10 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         public GridPointQuantitativeValueList<int?> WindDirection { get; set; }
 
         [JsonPropertyName("windSpeed")]
-        public GridPointQuantitativeValueList<decimal?> WindSpeed { get; set; }
+        public GridPointQuantitativeValueList<double?> WindSpeed { get; set; }
 
         [JsonPropertyName("windGust")]
-        public GridPointQuantitativeValueList<decimal?> WindGust { get; set; }
+        public GridPointQuantitativeValueList<double?> WindGust { get; set; }
 
         [JsonPropertyName("weather")]
         public Weather Weather { get; set; }

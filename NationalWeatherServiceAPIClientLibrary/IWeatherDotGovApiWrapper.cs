@@ -13,7 +13,7 @@ namespace NationalWeatherServiceAPI
     {
         Task<StationsResponse> GetAllWeatherStationsForStateAsync(string state);
 
-        Task<PointsResponse> GetGridpointAsync(decimal lat, decimal lon);
+        Task<PointsResponse> GetGridpointAsync(double lat, double lon);
 
         Task<GridpointsTextualForecastResponse> GetHourlyTextualForecastForGridArea(string wfo, int gridX, int gridY);
 
@@ -21,7 +21,7 @@ namespace NationalWeatherServiceAPI
 
         Task<StationObservationResponse> GetObservationsForStation(string stationId);
 
-        Task<StationsResponse> GetObservationStations(decimal lat, decimal lon);
+        Task<StationsResponse> GetObservationStations(double lat, double lon);
 
         Task<StationsResponse> GetObservationStations(string wfo, int gridX, int gridY);
 

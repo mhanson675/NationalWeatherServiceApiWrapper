@@ -214,7 +214,7 @@ namespace NationalWeatherServiceAPI
         /// <exception cref="HttpRequestException"></exception>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="JsonException"></exception>
-        public async Task<StationsResponse> GetObservationStations(decimal lat, decimal lon)
+        public async Task<StationsResponse> GetObservationStations(double lat, double lon)
         {
             try
             {
@@ -440,7 +440,7 @@ namespace NationalWeatherServiceAPI
         /// <exception cref="HttpRequestException"></exception>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="JsonException"></exception>
-        public async Task<PointsResponse> GetGridpointAsync(decimal lat, decimal lon)
+        public async Task<PointsResponse> GetGridpointAsync(double lat, double lon)
         {
             var pointsEndPoint = $"/points/{lat},{lon}";
 

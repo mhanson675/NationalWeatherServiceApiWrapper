@@ -13,7 +13,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
     public class StationsObservationProperties
     {
         [JsonPropertyName("elevation")]
-        public QuantitativeValue<decimal?> Elevation { get; set; }
+        public QuantitativeValue<double?> Elevation { get; set; }
 
         [JsonPropertyName("station")]
         public string Station { get; set; }
@@ -55,10 +55,10 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         public QuantitativeValue<int?> Visibility { get; set; }
 
         [JsonPropertyName("maxTemperatureLast24Hours")]
-        public QuantitativeValue<decimal?> MaxTemperatureLast24Hours { get; set; }
+        public QuantitativeValue<double?> MaxTemperatureLast24Hours { get; set; }
 
         [JsonPropertyName("minTemperatureLast24Hours")]
-        public QuantitativeValue<decimal?> MinTemperatureLast24Hours { get; set; }
+        public QuantitativeValue<double?> MinTemperatureLast24Hours { get; set; }
 
         [JsonPropertyName("precipitationLastHour")]
         public QuantitativeValue<int?> PrecipitationLastHour { get; set; }
@@ -73,10 +73,10 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         public QuantitativeValue<double?> RelativeHumidity { get; set; }
 
         [JsonPropertyName("windChill")]
-        public QuantitativeValue<decimal?> WindChill { get; set; }
+        public QuantitativeValue<double?> WindChill { get; set; }
 
         [JsonPropertyName("heatIndex")]
-        public QuantitativeValue<decimal?> HeatIndex { get; set; }
+        public QuantitativeValue<double?> HeatIndex { get; set; }
 
         [JsonPropertyName("cloudLayers")]
         public List<CloudLayer> CloudLayers { get; set; }

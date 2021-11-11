@@ -10,7 +10,7 @@
 		<RepositoryUrl>https://github.com/mhanson675/NationalWeatherServiceApiWrapper</RepositoryUrl>
 		<RepositoryType>Github</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Version>1.0.2.0</Version>
+		<Version>2.0.0.0-beta</Version>
 	</PropertyGroup>
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>

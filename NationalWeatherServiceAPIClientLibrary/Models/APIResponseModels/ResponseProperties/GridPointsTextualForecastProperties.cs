@@ -32,7 +32,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
         public string ValidTimes { get; set; }
 
         [JsonPropertyName("elevation")]
-        public QuantitativeValue<decimal?> Elevation { get; set; }
+        public QuantitativeValue<double?> Elevation { get; set; }
 
         [JsonPropertyName("periods")]
         public List<TextualForecastPeriod> Periods { get; set; }

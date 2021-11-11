@@ -29,7 +29,7 @@ namespace NationalWeatherServiceApiClientLibrary.Tests
             Assert.NotNull(response.Geometry.Coordinates);
             Assert.Equal("wmoUnit:degC", response.Properties.Temperature.Uom);
             Assert.Equal("2021-11-05T02:00:00+00:00/PT2H", response.Properties.Temperature.Values.First().ValidTime);
-            Assert.Equal(10.555555555555555m, response.Properties.Temperature.Values.First().Value);
+            Assert.Equal(10.555555555555555, response.Properties.Temperature.Values.First().Value);
         }
 
         [Fact]

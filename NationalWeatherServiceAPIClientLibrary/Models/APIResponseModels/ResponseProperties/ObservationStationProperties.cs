@@ -12,7 +12,7 @@ namespace NationalWeatherServiceAPI.Models.APIResponseModels.ResponseProperties
     public class ObservationStationProperties
     {
         [JsonPropertyName("elevation")]
-        public QuantitativeValue<decimal?> Elevation { get; set; }
+        public QuantitativeValue<double?> Elevation { get; set; }
 
         [JsonPropertyName("stationIdentifier")]
         public string StationIdentifier { get; set; }
